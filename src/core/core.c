@@ -1,3 +1,4 @@
+/* User comment */
 #include "core.h"
 #include "log.h"
 #include <stdlib.h>
@@ -162,7 +163,7 @@ void at_init_account(at_account* account, f64 balance){
 }
 
 void at_free_account(at_account* account){
-    // Nothing to free
+    
 }
 
 void at_init_trade(at_trade* trade, at_id account_id, c8* symbol, u32 volume, f64 open_price, u32 open_time){
@@ -181,7 +182,7 @@ void at_init_trade(at_trade* trade, at_id account_id, c8* symbol, u32 volume, f6
 }
 
 void at_free_trade(at_trade* trade){
-    // Nothing to free
+    
 }
 
 void at_init_order(at_order* order, at_id account_id, c8* symbol, u32 volume, f64 price, u32 time){
@@ -256,11 +257,11 @@ void at_cancel_order(at_account* account, at_order* order) {
 }
 
 void at_free_order(at_order* order){
-    // Nothing to free
+    
 }
 
 void at_init_strategy(at_strategy *strategy, c8 *name, on_start_callback on_start, on_tick_callback on_tick, u32 *candles_periods, sz candles_periods_count){
-    assert(strategy && name && candles_periods && candles_periods_count > 0); // at least one period
+    assert(strategy && name && candles_periods && candles_periods_count > 0); 
     strategy->id = at_new_id();
     strategy->name = name;
     strategy->on_start = on_start;

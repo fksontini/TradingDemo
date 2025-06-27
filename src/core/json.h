@@ -1,9 +1,10 @@
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+/* User comment */
+
 #pragma once
 
 #include "types.h"
 
-// HEAVY WIP, not recommended for production use
+
 
 typedef struct at_json {
     c8* data;

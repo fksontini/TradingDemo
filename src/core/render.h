@@ -1,4 +1,5 @@
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+/* User comment */
+
 
 #pragma once
 #include "core.h"
