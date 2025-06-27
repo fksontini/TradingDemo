@@ -1,4 +1,4 @@
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+/* User comment */
   
 #include "core/types.h"
 #include "core/log.h"
@@ -38,26 +38,17 @@ void on_tick_strategy(at_instance *instance, at_tick *tick) {
     }
 }
 
-i32 main(i32 argc, c8 **argv) {
-    at_symbol symbol = {0};
-    at_account account = {0};
-    at_strategy strategy = {0};
-    at_instance instance = {0};
-    at_init_symbol(&symbol, "AAPL", "NASDAQ", "USD", 0);
-    at_init_account(&account, 1000.0);
-    at_init_strategy(&strategy, "Test Strategy", on_start_strategy, on_tick_strategy, (u32[]){3, 5, 15}, 3); // use 3, 5, 15 candles (from ticks) for strategy
-    at_init_instance(&instance, &strategy, &symbol, &account);
-
-    at_start_instance(&instance);
+static void process_ticks(at_instance *instance) {
     for (sz i = 0; i < ticks_count; i++) {
         at_tick tick = ticks_sample[i];
-        at_tick_instance(&instance, &tick);
+        at_tick_instance(instance, &tick);
     }
+}
 
+static void render_candles(at_symbol *symbol, u32 period) {
     u32 candle_count = 0;
-    at_candle *candles = at_get_candles(&symbol, 5, &candle_count);
+    at_candle *candles = at_get_candles(symbol, period, &candle_count);
 
-    // Render candles
     at_render render = {0};
     at_init_render(&render);
     at_render_object object = {0};
@@ -67,6 +58,21 @@ i32 main(i32 argc, c8 **argv) {
         at_draw_render(&render);
     }
     free(candles);
+}
+
+i32 main(i32 argc, c8 **argv) {
+    at_symbol symbol = {0};
+    at_account account = {0};
+    at_strategy strategy = {0};
+    at_instance instance = {0};
+    at_init_symbol(&symbol, "AAPL", "NASDAQ", "USD", 0);
+    at_init_account(&account, 1000.0);
+    at_init_strategy(&strategy, "Test Strategy", on_start_strategy, on_tick_strategy, (u32[]){3, 5, 15}, 3); 
+    at_init_instance(&instance, &strategy, &symbol, &account);
+
+    at_start_instance(&instance);
+    process_ticks(&instance);
+    render_candles(&symbol, 5);
     at_free_symbol(&symbol);
     return 0;
 }

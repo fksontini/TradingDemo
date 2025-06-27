@@ -1,6 +1,7 @@
+/* User comment */
 #pragma once
 
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+
 
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>

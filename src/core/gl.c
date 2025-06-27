@@ -1,3 +1,4 @@
+/* User comment */
 #include "gl.h"
 #include <assert.h>
 

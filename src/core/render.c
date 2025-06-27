@@ -1,4 +1,5 @@
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+/* User comment */
+
 #include "render.h"
 #include "log.h"
 #include "fs.h"
@@ -32,10 +33,10 @@ void at_init_render(at_render *render){
     }
 
     glfwMakeContextCurrent(render->window);
-    glfwSwapInterval(1);  // Enable vsync
+    glfwSwapInterval(1);  
 
     at_init_opengl();
-    glViewport(0, 0, AT_WINDOW_WIDTH, AT_WINDOW_HEIGHT); // Adjust this as per the actual window size
+    glViewport(0, 0, AT_WINDOW_WIDTH, AT_WINDOW_HEIGHT); 
 
     render->object = NULL;
     render->object_count = 0;
@@ -145,68 +146,68 @@ void at_candles_to_render_object(at_candle *candles, sz candle_count, at_render_
 
         const i8 candle_direction = at_get_candle_direction(&candles[i]);
 
-        instance_data[i * 28 + 0] = x_left;  // Bottom left X
-        instance_data[i * 28 + 1] = y_low;   // Bottom left Y
-        instance_data[i * 28 + 2] = candle_direction == 1 ? 0.0f : 1.0f; // Color: Red
-        instance_data[i * 28 + 3] = candle_direction == 1 ? 1.0f : 0.0f; // Color: Green
-        instance_data[i * 28 + 4] = 0.0f;    // Color: Blue
-        instance_data[i * 28 + 5] = 0.0f;    // u (texture coordinate, if needed)
-        instance_data[i * 28 + 6] = 0.0f;    // v (texture coordinate, if needed)
+        instance_data[i * 28 + 0] = x_left;  
+        instance_data[i * 28 + 1] = y_low;   
+        instance_data[i * 28 + 2] = candle_direction == 1 ? 0.0f : 1.0f; 
+        instance_data[i * 28 + 3] = candle_direction == 1 ? 1.0f : 0.0f; 
+        instance_data[i * 28 + 4] = 0.0f;    
+        instance_data[i * 28 + 5] = 0.0f;    
+        instance_data[i * 28 + 6] = 0.0f;    
 
-        instance_data[i * 28 + 7] = x_right; // Bottom right X
-        instance_data[i * 28 + 8] = y_low;   // Bottom right Y
+        instance_data[i * 28 + 7] = x_right; 
+        instance_data[i * 28 + 8] = y_low;   
         instance_data[i * 28 + 9] = candle_direction == 1 ? 0.0f : 1.0f;
         instance_data[i * 28 + 10] = candle_direction == 1 ? 1.0f : 0.0f;
         instance_data[i * 28 + 11] = 0.0f;
         instance_data[i * 28 + 12] = 1.0f;
         instance_data[i * 28 + 13] = 0.0f;
 
-        instance_data[i * 28 + 14] = x_left;  // Top left X
-        instance_data[i * 28 + 15] = y_high;  // Top left Y
+        instance_data[i * 28 + 14] = x_left;  
+        instance_data[i * 28 + 15] = y_high;  
         instance_data[i * 28 + 16] = candle_direction == 1 ? 0.0f : 1.0f;
         instance_data[i * 28 + 17] = candle_direction == 1 ? 1.0f : 0.0f;
         instance_data[i * 28 + 18] = 0.0f;
         instance_data[i * 28 + 19] = 0.0f;
         instance_data[i * 28 + 20] = 1.0f;
 
-        instance_data[i * 28 + 21] = x_right; // Top right X
-        instance_data[i * 28 + 22] = y_high;  // Top right Y
+        instance_data[i * 28 + 21] = x_right; 
+        instance_data[i * 28 + 22] = y_high;  
         instance_data[i * 28 + 23] = candle_direction == 1 ? 0.0f : 1.0f;
         instance_data[i * 28 + 24] = candle_direction == 1 ? 1.0f : 0.0f;
         instance_data[i * 28 + 25] = 0.0f;
         instance_data[i * 28 + 26] = 1.0f;
         instance_data[i * 28 + 27] = 1.0f;
 
-        indices[i * 6 + 0] = i * 4 + 0; // Bottom-left
-        indices[i * 6 + 1] = i * 4 + 1; // Bottom-right
-        indices[i * 6 + 2] = i * 4 + 2; // Top-left
-        indices[i * 6 + 3] = i * 4 + 2; // Top-left
-        indices[i * 6 + 4] = i * 4 + 1; // Bottom-right
-        indices[i * 6 + 5] = i * 4 + 3; // Top-right
+        indices[i * 6 + 0] = i * 4 + 0; 
+        indices[i * 6 + 1] = i * 4 + 1; 
+        indices[i * 6 + 2] = i * 4 + 2; 
+        indices[i * 6 + 3] = i * 4 + 2; 
+        indices[i * 6 + 4] = i * 4 + 1; 
+        indices[i * 6 + 5] = i * 4 + 3; 
 
         current_x += candle_width + distance_between_candles;
     }
 
-    // Create VAO
+    
     glGenVertexArrays(1, &object->vao);
     glBindVertexArray(object->vao);
 
-    // Create VBO
+    
     glGenBuffers(1, &object->instance_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, object->instance_vbo);
     glBufferData(GL_ARRAY_BUFFER, candle_count * 4 * 7 * sizeof(GLfloat), instance_data, GL_STATIC_DRAW);
 
-    // Create EBO
+    
     glGenBuffers(1, &object->ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object->ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, candle_count * 6 * sizeof(GLuint), indices, GL_STATIC_DRAW);
 
-    // Vertex Attributes
-    glEnableVertexAttribArray(0); // Position
+    
+    glEnableVertexAttribArray(0); 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (void*)0);
-    glEnableVertexAttribArray(1); // Color
+    glEnableVertexAttribArray(1); 
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (void*)(2 * sizeof(GLfloat)));
-    glEnableVertexAttribArray(2); // Texture Coordinates
+    glEnableVertexAttribArray(2); 
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(GLfloat), (void*)(5 * sizeof(GLfloat)));
 
     char* vertex_shader_src = at_read_file(AT_CANDLE_VS_PATH);
@@ -220,10 +221,10 @@ void at_candles_to_render_object(at_candle *candles, sz candle_count, at_render_
 
 
 void at_ticks_to_render_object(at_tick *ticks, sz tick_count, at_render_object *object){
-    GLfloat* instance_data = malloc(tick_count * 2 * sizeof(GLfloat)); // Position data
+    GLfloat* instance_data = malloc(tick_count * 2 * sizeof(GLfloat)); 
     for (sz i = 0; i < tick_count; ++i) {
-        instance_data[i * 2 + 0] = ticks[i].price;  // Price
-        instance_data[i * 2 + 1] = ticks[i].volume; // Volume
+        instance_data[i * 2 + 0] = ticks[i].price;  
+        instance_data[i * 2 + 1] = ticks[i].volume; 
     }
 
     glGenVertexArrays(1, &object->vao);
@@ -233,7 +234,7 @@ void at_ticks_to_render_object(at_tick *ticks, sz tick_count, at_render_object *
     glBindBuffer(GL_ARRAY_BUFFER, object->instance_vbo);
     glBufferData(GL_ARRAY_BUFFER, tick_count * 2 * sizeof(GLfloat), instance_data, GL_STATIC_DRAW);
 
-    // Define instance attributes (per tick data)
+    
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)0);
     glVertexAttribDivisor(0, 1);
@@ -251,7 +252,7 @@ GLuint at_compile_shader(const char *vertex_src, const char *fragment_src){
     glShaderSource(vertex_shader, 1, &vertex_src, NULL);
     glCompileShader(vertex_shader);
 
-    // Check for compile errors
+    
     GLint success;
     glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
     if (!success) {
@@ -268,7 +269,7 @@ GLuint at_compile_shader(const char *vertex_src, const char *fragment_src){
     glShaderSource(fragment_shader, 1, &fragment_src, NULL);
     glCompileShader(fragment_shader);
 
-    // Check for compile errors
+    
     glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
     if (!success) {
         GLint log_length;
@@ -285,7 +286,7 @@ GLuint at_compile_shader(const char *vertex_src, const char *fragment_src){
     glAttachShader(shader_program, fragment_shader);
     glLinkProgram(shader_program);
 
-    // Check for linking errors
+    
     glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
     if (!success) {
         GLint log_length;

@@ -1,4 +1,5 @@
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+/* User comment */
+
 
 #include "core/log.h"
 #include <stdio.h>
@@ -13,7 +14,7 @@ void log_message(const char *level, const char *file, const i32 line, const char
 
     time_t now = time(NULL);
     char *date_str = ctime(&now);
-    date_str[strlen(date_str) - 1] = '\0'; // Remove newline
+    date_str[strlen(date_str) - 1] = '\0'; 
 
     if (strcmp(level, LOG_LEVEL_INFO) == 0) {
         fprintf(stderr, "[%s | %s] ", level, date_str);

@@ -1,4 +1,5 @@
-// abstract-trader https://github.com/ougi-washi/abstract-trader
+/* User comment */
+
 #pragma once
 
 #include "core/types.h"
@@ -103,7 +104,7 @@ extern void at_add_tick(at_symbol* symbol, at_tick* tick);
 extern void at_add_ticks(at_symbol* symbol, at_tick* ticks, sz count);
 extern at_tick* at_get_tick(at_symbol* symbol, u32 index);
 extern at_tick* at_get_last_tick(at_symbol* symbol);
-extern at_candle* at_get_candles(at_symbol* symbol, u32 period, u32* out_candle_count); // if tick 1s = 1, 1m = 60, 1h = 3600, 1d = 86400
+extern at_candle* at_get_candles(at_symbol* symbol, u32 period, u32* out_candle_count); 
 extern void at_add_ticks_to_candles(at_candles* candles, at_tick* ticks, u32 ticks_count);
 extern i8 at_get_candle_direction(at_candle* candle);
 extern void at_free_symbol(at_symbol* symbol);

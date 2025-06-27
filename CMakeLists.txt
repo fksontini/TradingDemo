@@ -1,6 +1,4 @@
-# abstract-trader https://github.com/ougi-washi/abstract-trader
 
-## General
 cmake_minimum_required(VERSION 3.22.1)
 
 project(abstract-trader LANGUAGES C CXX)
@@ -16,12 +14,10 @@ if(NOT CMAKE_GENERATOR)
     endif()
 endif()
 
-# Directory setup
 set(LIB_DIR "lib")
 set(SRC_DIR "src")
 set(BIN_DIR "bin")
 
-# setup library macro
 macro(setup_library arg_lib_name arg_source_path arg_include_path)
 	message(STATUS "Adding ${arg_lib_name}")
 	file(GLOB CURRENT_SRC_FILES	"${arg_source_path}/*.c" 
@@ -34,13 +30,11 @@ endmacro()
 
 find_package(Threads REQUIRED)
 
-# GLFW
 find_package(glfw3 REQUIRED)
 if (NOT glfw3_FOUND)
     message(FATAL_ERROR "GLFW not found!")
 endif()
 
-# OpenGL
 find_package(OpenGL REQUIRED)
 if (NOT OPENGL_FOUND)
     message(FATAL_ERROR "OpenGL not found!")
@@ -48,25 +42,20 @@ endif()
 
 
 
-# Main module
 set(MAIN_MODULE_INCLUDES ${PROJECT_SOURCE_DIR}/${SRC_DIR} ${PROJECT_SOURCE_DIR}/${LIB_DIR})
 setup_library(main_module ${SRC_DIR} "${MAIN_MODULE_INCLUDES}")
 target_link_libraries(main_module PUBLIC OpenGL::GL glfw Threads::Threads)
 
-# Executable
 add_executable(${PROJECT_NAME} main.c)
 target_link_libraries(${PROJECT_NAME} PUBLIC main_module)
 set_target_properties(${PROJECT_NAME} PROPERTIES
                       RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/${BIN_DIR})
 
-# Shader directory
 add_custom_command(
     TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    "${CMAKE_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:${PROJECT_NAME}>/shaders ## TODO: encrypt shaders
-)
+    "${CMAKE_SOURCE_DIR}/shaders" $<TARGET_FILE_DIR:${PROJECT_NAME}>/shaders )
 
-## Definitions
 if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
